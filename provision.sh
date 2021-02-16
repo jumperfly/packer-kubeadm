@@ -13,7 +13,7 @@ yum -y install containerd.io-$CONTAINERD_VERSION
 yum -y install kubelet-$KUBE_VERSION kubeadm-$KUBE_VERSION kubectl-$KUBE_VERSION --disableexcludes=kubernetes
 
 # Enable containerd cri plugin and enable service
-sed -i 's/disabled_plugins = \\["cri"\\]//' /etc/containerd/config.toml
+sed -i 's/disabled_plugins = \["cri"\]//' /etc/containerd/config.toml
 
 # Enable services
 systemctl enable containerd
