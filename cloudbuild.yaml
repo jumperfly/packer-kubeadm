@@ -1,0 +1,4 @@
+timeout: 30m
+steps:
+- id: build
+  name: 'gcr.io/jumperfly/packer-virtualbox-builder'
