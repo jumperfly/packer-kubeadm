@@ -1,6 +1,7 @@
 source "vagrant" "kubeadm-master" {
   provider = "virtualbox"
-  source_path = "./output-kubeadm/package.box"
+  source_path = var.kubeadm_box
+  box_version = "${var.box_version_major_minor}.${var.build_number}"
   communicator = "ssh"
   ssh_username = "root"
   ssh_password = "vagrant"

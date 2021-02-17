@@ -21,3 +21,8 @@ variable "box_version_major_minor" {
   type = string
   default = "0.1"
 }
+
+variable "kubeadm_box" {
+  type = string
+  default = "./output-kubeadm/package.box"
+}

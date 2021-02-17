@@ -7,4 +7,4 @@ steps:
 - id: kubeadm-master
   name: 'gcr.io/jumperfly/packer-virtualbox-builder'
   env:
-    - PACKER_BUILD_ARGS=-except kubeadm.vagrant.kubeadm
+    - PACKER_BUILD_ARGS=-except kubeadm.vagrant.kubeadm -var kubeadm_box=jumperfly/kubeadm
