@@ -22,7 +22,8 @@ build {
     script = "provision.sh"
     environment_vars = [
       "CONTAINERD_VERSION=${var.containerd_version}",
-      "KUBE_VERSION=${var.kube_version}"
+      "KUBE_VERSION=${var.kube_version}",
+      "FLANNEL_VERSION=${var.flannel_version}"
     ]
   }
   provisioner "shell" {

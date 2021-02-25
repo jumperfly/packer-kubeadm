@@ -16,5 +16,8 @@ yum -y install kubelet-$KUBE_VERSION kubeadm-$KUBE_VERSION kubectl-$KUBE_VERSION
 sed -i 's/disabled_plugins = \["cri"\]//' /etc/containerd/config.toml
 
 # Enable services
-systemctl enable containerd
+systemctl enable --now containerd
 systemctl enable kubelet
+
+# Pull images
+ctr -n k8s.io images pull quay.io/coreos/flannel:v$FLANNEL_VERSION

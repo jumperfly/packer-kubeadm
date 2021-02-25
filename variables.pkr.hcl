@@ -17,6 +17,11 @@ variable "kube_version" {
   default = "1.20.4"
 }
 
+variable "flannel_version" {
+  type = string
+  default = "0.13.0"
+}
+
 variable "box_version_major_minor" {
   type = string
   default = "0.1"
