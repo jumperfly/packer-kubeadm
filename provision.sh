@@ -20,4 +20,6 @@ systemctl enable --now containerd
 systemctl enable kubelet
 
 # Pull images
+ctr -n k8s.io images pull k8s.gcr.io/kube-proxy:v$KUBE_VERSION
+ctr -n k8s.io images pull k8s.gcr.io/pause:3.2
 ctr -n k8s.io images pull quay.io/coreos/flannel:v$FLANNEL_VERSION
