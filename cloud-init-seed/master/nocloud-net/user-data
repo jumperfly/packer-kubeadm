@@ -1,0 +1,24 @@
+## template: jinja
+#cloud-config
+
+ssh_pwauth: unchanged
+
+{% if ds.meta_data.kubeadm_token is defined %}
+runcmd:
+  - >
+    kubeadm init \
+      {% if ds.meta_data.kubeadm_node_name is defined -%}
+      --node-name {{ds.meta_data.kubeadm_node_name}} \
+      {% endif -%}
+      {% if ds.meta_data.kubeadm_apiserver_advertise_address is defined -%}
+      --apiserver-advertise-address {{ds.meta_data.kubeadm_apiserver_advertise_address}} \
+      {% endif -%}
+      --token {{ds.meta_data.kubeadm_token}} \
+      --pod-network-cidr 10.244.0.0/16
+  - mkdir -p /etc/kubernetes/cni
+  - curl -o /etc/kubernetes/cni/kube-flannel.yml https://raw.githubusercontent.com/coreos/flannel/v0.13.0/Documentation/kube-flannel.yml
+  {% if ds.meta_data.flannel_iface is defined -%}
+  - sed -i 's/\\([ ]*\\)\\(- --kube-subnet-mgr\\)/\\1\\2\\n\\1- --iface={{ds.meta_data.flannel_iface}}/' /etc/kubernetes/cni/kube-flannel.yml
+  {% endif -%}
+  - KUBECONFIG=/etc/kubernetes/admin.conf kubectl apply -f /etc/kubernetes/cni/kube-flannel.yml
+{% endif %}

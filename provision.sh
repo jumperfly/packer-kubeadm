@@ -12,7 +12,7 @@ curl -o /etc/yum.repos.d/docker.repo https://download.docker.com/linux/centos/do
 yum -y install containerd.io-$CONTAINERD_VERSION
 yum -y install kubelet-$KUBE_VERSION kubeadm-$KUBE_VERSION kubectl-$KUBE_VERSION --disableexcludes=kubernetes
 
-# Enable containerd cri plugin and enable service
+# Enable containerd cri plugin
 sed -i 's/disabled_plugins = \["cri"\]//' /etc/containerd/config.toml
 
 # Enable services

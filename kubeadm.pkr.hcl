@@ -1,7 +1,7 @@
 source "vagrant" "kubeadm" {
   provider = "virtualbox"
   source_path = "jumperfly/centos-7"
-  box_version = "7.9.16"
+  box_version = "7.9.17"
   communicator = "ssh"
   ssh_username = "root"
   ssh_password = "vagrant"
@@ -13,6 +13,10 @@ build {
   provisioner "file" {
     source = "kubernetes.repo"
     destination = "/etc/yum.repos.d/kubernetes.repo"
+  }
+  provisioner "file" {
+    source = "cloud-init-seed/node"
+    destination = "/var/lib/cloud/seed"
   }
   provisioner "shell" {
     script = "provision.sh"

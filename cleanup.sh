@@ -1,5 +1,8 @@
 yum clean all
 rm -rf /var/cache/yum
+rm -rf /var/lib/cloud/instances/*
+rm -f /var/log/cloud-init.log
+rm -rf /run/cloud-init/*
 
 if [[ -z "$PACKER_SKIP_SHRINK_DISK" ]]; then
   dd if=/dev/zero of=/boot/ZERO bs=1M || echo "ignoring expected dd error"

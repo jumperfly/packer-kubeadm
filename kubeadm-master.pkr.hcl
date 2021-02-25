@@ -10,6 +10,10 @@ source "vagrant" "kubeadm-master" {
 build {
   name = "kubeadm-master"
   sources = ["sources.vagrant.kubeadm-master"]
+  provisioner "file" {
+    source = "cloud-init-seed/master/nocloud-net"
+    destination = "/var/lib/cloud/seed/"
+  }
   provisioner "shell" {
     inline = ["kubeadm config images pull"]
   }

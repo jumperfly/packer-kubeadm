@@ -1,0 +1,15 @@
+## template: jinja
+#cloud-config
+
+ssh_pwauth: unchanged
+
+{% if ds.meta_data.kubeadm_master is defined and ds.meta_data.kubeadm_token is defined %}
+runcmd:
+  - >
+    kubeadm join {{ds.meta_data.kubeadm_master}} \
+      {% if ds.meta_data.kubeadm_node_name is defined -%}
+      --node-name {{ds.meta_data.kubeadm_node_name}} \
+      {% endif -%}
+      --token {{ds.meta_data.kubeadm_token}} \
+      --discovery-token-unsafe-skip-ca-verification
+{% endif %}
