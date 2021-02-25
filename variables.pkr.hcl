@@ -14,7 +14,7 @@ variable "containerd_version" {
 
 variable "kube_version" {
   type = string
-  default = "1.20.2"
+  default = "1.20.4"
 }
 
 variable "box_version_major_minor" {
