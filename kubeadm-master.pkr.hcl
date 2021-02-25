@@ -15,7 +15,10 @@ build {
     destination = "/var/lib/cloud/seed/"
   }
   provisioner "shell" {
-    inline = ["kubeadm config images pull"]
+    inline = [
+      "kubeadm config images pull --kubernetes-version v${var.kube_version}",
+      "echo kubeadm_kubernetes_version: ${var.kube_version} >> /var/lib/cloud/seed/nocloud-net/meta-data"
+    ]
   }
   provisioner "shell" {
     script = "cleanup.sh"

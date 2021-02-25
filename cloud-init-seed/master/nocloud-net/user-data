@@ -7,6 +7,9 @@ ssh_pwauth: unchanged
 runcmd:
   - >
     kubeadm init \
+      {% if ds.meta_data.kubeadm_kubernetes_version is defined -%}
+      --kubernetes-version {{ds.meta_data.kubeadm_kubernetes_version}} \
+      {% endif -%}
       {% if ds.meta_data.kubeadm_node_name is defined -%}
       --node-name {{ds.meta_data.kubeadm_node_name}} \
       {% endif -%}
