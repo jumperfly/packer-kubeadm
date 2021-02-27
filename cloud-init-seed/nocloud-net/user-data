@@ -3,6 +3,13 @@
 
 ssh_pwauth: unchanged
 
+{% if ds.meta_data.kubelet_node_ip is defined %}
+write_files:
+  - path: /etc/sysconfig/kubelet
+    content: |
+      KUBELET_EXTRA_ARGS=--node-ip {{ds.meta_data.kubelet_node_ip}}
+{% endif %}
+
 runcmd:
 {% if ds.meta_data.kubeadm_node_type == "worker" %}
   - >

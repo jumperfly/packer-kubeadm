@@ -22,6 +22,7 @@ Vagrant.configure("2") do |config|
 
       cloud_init_meta_data = {
         "ds" => "nocloud",
+        "kubelet_node_ip" => "#{ip}",
         "kubeadm_node_type" => "worker",
         "kubeadm_node_name" => vm_name,
         "kubeadm_token" => $kubeadm_token
@@ -37,11 +38,6 @@ Vagrant.configure("2") do |config|
       config.vm.provider "virtualbox" do |v|
         v.customize ["setextradata", :id, "VBoxInternal/Devices/pcbios/0/Config/DmiSystemSerial", cloud_init_meta_data_str]
       end
-
-      config.vm.provision "shell", inline: <<-SHELL
-        echo 'KUBELET_EXTRA_ARGS=--node-ip #{ip}' > /etc/sysconfig/kubelet
-        systemctl restart kubelet
-      SHELL
     end
   end
 
