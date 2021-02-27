@@ -3,8 +3,16 @@
 
 ssh_pwauth: unchanged
 
-{% if ds.meta_data.kubeadm_token is defined %}
 runcmd:
+{% if ds.meta_data.kubeadm_node_type == "worker" %}
+  - >
+    kubeadm join {{ds.meta_data.kubeadm_master}} \
+      {% if ds.meta_data.kubeadm_node_name is defined -%}
+      --node-name {{ds.meta_data.kubeadm_node_name}} \
+      {% endif -%}
+      --token {{ds.meta_data.kubeadm_token}} \
+      --discovery-token-unsafe-skip-ca-verification
+{% elif ds.meta_data.kubeadm_node_type == "master" %}
   - >
     kubeadm init \
       {% if ds.meta_data.kubeadm_kubernetes_version is defined -%}
@@ -24,4 +32,6 @@ runcmd:
   - sed -i 's/\\([ ]*\\)\\(- --kube-subnet-mgr\\)/\\1\\2\\n\\1- --iface={{ds.meta_data.flannel_iface}}/' /etc/kubernetes/cni/kube-flannel.yml
   {% endif -%}
   - KUBECONFIG=/etc/kubernetes/admin.conf kubectl apply -f /etc/kubernetes/cni/kube-flannel.yml
+{% else %}
+  - echo "Not running kubeadm as ds metadata kubeadm_node_type not set to 'worker' or 'master'"
 {% endif %}

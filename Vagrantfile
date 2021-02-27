@@ -22,11 +22,12 @@ Vagrant.configure("2") do |config|
 
       cloud_init_meta_data = {
         "ds" => "nocloud",
+        "kubeadm_node_type" => "worker",
         "kubeadm_node_name" => vm_name,
         "kubeadm_token" => $kubeadm_token
       }
       if i == 1
-        config.vm.box = "./output-kubeadm-master/package.box"
+        cloud_init_meta_data["kubeadm_node_type"] = "master"
         cloud_init_meta_data["kubeadm_apiserver_advertise_address"] = "#{ip}"
         cloud_init_meta_data["flannel_iface"] = "eth1"
       else

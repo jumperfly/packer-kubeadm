@@ -15,7 +15,7 @@ build {
     destination = "/etc/yum.repos.d/kubernetes.repo"
   }
   provisioner "file" {
-    source = "cloud-init-seed/node"
+    source = "cloud-init-seed"
     destination = "/var/lib/cloud/seed"
   }
   provisioner "shell" {
